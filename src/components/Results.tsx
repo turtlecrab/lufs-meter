@@ -1,5 +1,7 @@
 import styled from 'styled-components'
+
 import type { TrackData } from '../lib/types'
+import { formatDuration } from '../lib/utils'
 
 interface Props {
   data: TrackData[]
@@ -26,7 +28,7 @@ function Results({ data }: Props) {
           >
             <td>{track.name}</td>
             <td>{(track.size / (1024 * 1024)).toFixed(2)} Mb</td>
-            <td>{track.duration}</td>
+            <td>{track.duration && formatDuration(track.duration)}</td>
             <td>{track.integrated?.toFixed(1)}</td>
             <td>
               {track.short.length > 0 && Math.max(...track.short).toFixed(1)}

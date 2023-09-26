@@ -4,7 +4,14 @@ import { useEffect, useRef, useState } from 'react'
 import FileInput from './components/FileInput'
 import Results from './components/Results'
 import { measure } from './lib/measure'
-import type { MeterMode, TrackData } from './lib/types'
+import type { MeterMode } from './lib/types'
+import { useAppDispatch, useAppSelector } from './store/store'
+import {
+  addPendingTrack,
+  setTrackError,
+  updateDecodedData,
+  updateLufsData,
+} from './store/lufsSlice'
 
 function App() {
   const actxRef = useRef<AudioContext>()
@@ -19,22 +26,17 @@ function App() {
   }, [])
 
   const [files, setFiles] = useState<File[]>([])
-  const [data, setData] = useState<TrackData[]>([])
+
+  const data = useAppSelector(state => state.lufs.data)
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
+    console.log('effect')
     if (data.length < files.length) {
       files.slice(data.length).forEach((file, index) => {
         const dataIndex = data.length + index
 
-        setData(prev => [
-          ...prev,
-          {
-            name: file.name,
-            status: 'pending',
-            size: file.size,
-            short: [],
-          },
-        ])
+        dispatch(addPendingTrack({ name: file.name, size: file.size }))
 
         const fileReader = new FileReader()
         fileReader.readAsArrayBuffer(file)
@@ -51,66 +53,27 @@ function App() {
               const source = offlineCtx.createBufferSource()
               source.buffer = buffer
 
-              const minutes = Math.floor(buffer.duration / 60)
-              const seconds = Math.floor(buffer.duration - minutes * 60)
-              const duration = `${minutes}:${String(seconds).padStart(2, '0')}`
-              setData(prev => {
-                return [...prev].map((v, i) =>
-                  i === dataIndex
-                    ? {
-                        ...v,
-                        duration,
-                        isMono: buffer.numberOfChannels === 1,
-                      }
-                    : v,
-                )
-              })
+              dispatch(
+                updateDecodedData({
+                  index: dataIndex,
+                  duration: buffer.duration,
+                  isMono: buffer.numberOfChannels === 1,
+                }),
+              )
 
               const onDataAvailable = (mode: MeterMode, value: number) => {
-                if (mode === 'integrated') {
-                  setData(prev => {
-                    return [...prev].map((v, i) =>
-                      i === dataIndex
-                        ? {
-                            ...v,
-                            status: 'measured',
-                            integrated: value,
-                          }
-                        : v,
-                    )
-                  })
-                } else if (mode === 'short-term') {
-                  setData(prev => {
-                    return [...prev].map((v, i) =>
-                      i === dataIndex
-                        ? {
-                            ...v,
-                            short: [...v.short, value],
-                          }
-                        : v,
-                    )
-                  })
-                }
+                dispatch(updateLufsData({ index: dataIndex, mode, value }))
               }
               measure(source, onDataAvailable)
             })
             .catch(err => {
               console.error(err)
-              setData(prev => {
-                return [...prev].map((v, i) =>
-                  i === dataIndex
-                    ? {
-                        ...v,
-                        status: 'error',
-                      }
-                    : v,
-                )
-              })
+              dispatch(setTrackError({ index: dataIndex }))
             })
         }
       })
     }
-  }, [files, data])
+  }, [files, data, dispatch])
 
   return (
     <>
