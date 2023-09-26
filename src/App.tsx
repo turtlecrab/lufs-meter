@@ -43,7 +43,22 @@ function App() {
               const source = offlineCtx.createBufferSource()
               source.buffer = buffer
 
-              const onDataRecieved = (mode: MeterMode, value: number) => {
+              const minutes = Math.floor(buffer.duration / 60)
+              const seconds = Math.floor(buffer.duration - minutes * 60)
+              const duration = `${minutes}:${String(seconds).padStart(2, '0')}`
+              setData(prev => {
+                return [...prev].map((v, i) =>
+                  i === dataIndex
+                    ? {
+                        ...v,
+                        duration,
+                        isMono: buffer.numberOfChannels === 1,
+                      }
+                    : v,
+                )
+              })
+
+              const onDataAvailable = (mode: MeterMode, value: number) => {
                 if (mode === 'integrated') {
                   setData(prev => {
                     return [...prev].map((v, i) =>
@@ -52,7 +67,6 @@ function App() {
                             ...v,
                             status: 'measured',
                             integrated: value,
-                            isMono: buffer.numberOfChannels === 1,
                           }
                         : v,
                     )
@@ -70,8 +84,7 @@ function App() {
                   })
                 }
               }
-
-              measure(source, onDataRecieved)
+              measure(source, onDataAvailable)
             })
             .catch(err => {
               console.error(err)

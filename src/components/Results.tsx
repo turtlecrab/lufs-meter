@@ -12,7 +12,8 @@ function Results({ files, data }: Props) {
       <thead>
         <tr>
           <th>Name</th>
-          <th>Length</th>
+          <th>Size</th>
+          <th>Duration</th>
           <th>Integrated</th>
           <th>Short</th>
           <th>Mono</th>
@@ -26,6 +27,7 @@ function Results({ files, data }: Props) {
           >
             <td>{file.name}</td>
             <td>{(file.size / (1024 * 1024)).toFixed(2)} Mb</td>
+            <td>{data[index]?.duration}</td>
             <td>{data[index]?.integrated?.toFixed(1)}</td>
             <td>
               {data[index] &&

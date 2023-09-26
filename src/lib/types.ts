@@ -3,6 +3,7 @@ export type TrackData = {
   integrated?: number
   short: number[]
   isMono?: boolean
+  duration?: string
 }
 
 export type MeterMode = 'integrated' | 'short-term' | 'momentary'
