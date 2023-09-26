@@ -17,7 +17,7 @@ const Track = memo(({ index }: Props) => {
       <td>{track.duration && formatDuration(track.duration)}</td>
       <td>{track.integrated?.toFixed(1)}</td>
       <td>{track.short.length > 0 && Math.max(...track.short).toFixed(1)}</td>
-      <td>{track.isMono !== undefined && (track.isMono ? 'Yes' : 'No')}</td>
+      <td>{track.isMono && 'Mono'}</td>
     </tr>
   )
 })
