@@ -27,14 +27,13 @@ function App() {
 
   const [files, setFiles] = useState<File[]>([])
 
-  const data = useAppSelector(state => state.lufs.data)
+  const dataLength = useAppSelector(state => state.lufs.data.length)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    console.log('effect')
-    if (data.length < files.length) {
-      files.slice(data.length).forEach((file, index) => {
-        const dataIndex = data.length + index
+    if (dataLength < files.length) {
+      files.slice(dataLength).forEach((file, index) => {
+        const dataIndex = dataLength + index
 
         dispatch(addPendingTrack({ name: file.name, size: file.size }))
 
@@ -73,7 +72,7 @@ function App() {
         }
       })
     }
-  }, [files, data, dispatch])
+  }, [files, dataLength, dispatch])
 
   return (
     <>
