@@ -1,9 +1,11 @@
 export type TrackData = {
+  name: string
   status: 'pending' | 'measured' | 'error'
+  size: number
+  duration?: string
   integrated?: number
   short: number[]
   isMono?: boolean
-  duration?: string
 }
 
 export type MeterMode = 'integrated' | 'short-term' | 'momentary'

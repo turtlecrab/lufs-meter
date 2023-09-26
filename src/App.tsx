@@ -26,7 +26,15 @@ function App() {
       files.slice(data.length).forEach((file, index) => {
         const dataIndex = data.length + index
 
-        setData(prev => [...prev, { status: 'pending', short: [] }])
+        setData(prev => [
+          ...prev,
+          {
+            name: file.name,
+            status: 'pending',
+            size: file.size,
+            short: [],
+          },
+        ])
 
         const fileReader = new FileReader()
         fileReader.readAsArrayBuffer(file)
@@ -108,7 +116,7 @@ function App() {
     <>
       <Header>LUFS meter</Header>
       <FileInput setFiles={setFiles} />
-      <Results files={files} data={data} />
+      <Results data={data} />
     </>
   )
 }
