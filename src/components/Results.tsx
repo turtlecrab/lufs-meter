@@ -1,13 +1,11 @@
 import styled from 'styled-components'
 
-import type { TrackData } from '../lib/types'
 import { formatDuration } from '../lib/utils'
+import { useAppSelector } from '../store/store'
 
-interface Props {
-  data: TrackData[]
-}
+function Results() {
+  const data = useAppSelector(state => state.lufs.data)
 
-function Results({ data }: Props) {
   return (
     <Table>
       <thead>

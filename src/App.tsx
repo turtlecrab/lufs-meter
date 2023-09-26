@@ -79,7 +79,7 @@ function App() {
     <>
       <Header>LUFS meter</Header>
       <FileInput setFiles={setFiles} />
-      <Results data={data} />
+      <Results />
     </>
   )
 }
