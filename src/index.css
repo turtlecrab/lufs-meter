@@ -5,7 +5,13 @@
 }
 
 body {
-  margin: 0;
+  --bg-color: black;
+  --text-color: white;
+
+  margin: 1rem;
   min-width: 320px;
   min-height: 100vh;
+
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
