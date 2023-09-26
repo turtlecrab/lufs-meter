@@ -20,7 +20,10 @@ function Results({ files, data }: Props) {
       </thead>
       <tbody>
         {files.map((file, index) => (
-          <tr key={index}>
+          <tr
+            key={index}
+            style={data[index]?.status === 'error' ? { color: 'red' } : {}}
+          >
             <td>{file.name}</td>
             <td>{(file.size / (1024 * 1024)).toFixed(2)} Mb</td>
             <td>{data[index]?.integrated?.toFixed(1)}</td>

@@ -73,6 +73,19 @@ function App() {
 
               measure(source, onDataRecieved)
             })
+            .catch(err => {
+              console.error(err)
+              setData(prev => {
+                return [...prev].map((v, i) =>
+                  i === dataIndex
+                    ? {
+                        ...v,
+                        status: 'error',
+                      }
+                    : v,
+                )
+              })
+            })
         }
       })
     }
