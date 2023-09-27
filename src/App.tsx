@@ -31,45 +31,43 @@ function App() {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (dataLength < files.length) {
+    if (dataLength < files.length && actxRef.current) {
       files.slice(dataLength).forEach((file, index) => {
         const dataIndex = dataLength + index
 
-        dispatch(addPendingTrack({ name: file.name, size: file.size }))
+        const url = URL.createObjectURL(file)
 
-        const fileReader = new FileReader()
-        fileReader.readAsArrayBuffer(file)
+        dispatch(addPendingTrack({ name: file.name, size: file.size, url }))
 
-        fileReader.onload = e => {
-          actxRef.current
-            ?.decodeAudioData(e.target?.result as ArrayBuffer)
-            .then(buffer => {
-              const offlineCtx = new OfflineAudioContext(
-                buffer.numberOfChannels,
-                buffer.length,
-                buffer.sampleRate,
-              )
-              const source = offlineCtx.createBufferSource()
-              source.buffer = buffer
+        fetch(url)
+          .then(res => res.arrayBuffer())
+          .then(arrayBuffer => actxRef.current!.decodeAudioData(arrayBuffer))
+          .then(buffer => {
+            const offlineCtx = new OfflineAudioContext(
+              buffer.numberOfChannels,
+              buffer.length,
+              buffer.sampleRate,
+            )
+            const source = offlineCtx.createBufferSource()
+            source.buffer = buffer
 
-              dispatch(
-                updateDecodedData({
-                  index: dataIndex,
-                  duration: buffer.duration,
-                  isMono: buffer.numberOfChannels === 1,
-                }),
-              )
+            dispatch(
+              updateDecodedData({
+                index: dataIndex,
+                duration: buffer.duration,
+                isMono: buffer.numberOfChannels === 1,
+              }),
+            )
 
-              const onDataAvailable = (mode: MeterMode, value: number) => {
-                dispatch(updateLufsData({ index: dataIndex, mode, value }))
-              }
-              measure(source, onDataAvailable)
-            })
-            .catch(err => {
-              console.error(err)
-              dispatch(setTrackError({ index: dataIndex }))
-            })
-        }
+            const onDataAvailable = (mode: MeterMode, value: number) => {
+              dispatch(updateLufsData({ index: dataIndex, mode, value }))
+            }
+            measure(source, onDataAvailable)
+          })
+          .catch(err => {
+            console.error(err)
+            dispatch(setTrackError({ index: dataIndex }))
+          })
       })
     }
   }, [files, dataLength, dispatch])

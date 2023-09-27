@@ -16,14 +16,15 @@ const lufsSlice = createSlice({
   reducers: {
     addPendingTrack(
       state,
-      action: PayloadAction<{ name: string; size: number }>,
+      action: PayloadAction<{ name: string; size: number; url: string }>,
     ) {
-      const { name, size } = action.payload
+      const { name, size, url } = action.payload
       state.data.push({
         name,
         status: 'pending',
         size,
         short: [],
+        url,
       })
     },
     updateDecodedData(

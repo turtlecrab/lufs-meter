@@ -2,6 +2,7 @@ export type TrackData = {
   name: string
   status: 'pending' | 'measured' | 'error'
   size: number
+  url: string
   duration?: number
   integrated?: number
   short: number[]
