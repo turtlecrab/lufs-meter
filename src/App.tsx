@@ -12,6 +12,7 @@ import {
   updateDecodedData,
   updateLufsData,
 } from './store/lufsSlice'
+import Header from './components/Header'
 
 function App() {
   const actxRef = useRef<AudioContext>()
@@ -75,7 +76,7 @@ function App() {
 
   return (
     <Main>
-      <Header>LUFS meter</Header>
+      <Header />
       <FileInput setFiles={setFiles} />
       <Results />
     </Main>
@@ -85,14 +86,6 @@ function App() {
 const Main = styled.main`
   max-width: 700px;
   margin-inline: auto;
-`
-
-const Header = styled.h1`
-  margin: 0;
-  padding: 12px;
-  font-size: xx-large;
-
-  font-family: 'Courier New', Courier, monospace;
 `
 
 export default App
