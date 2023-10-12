@@ -7,37 +7,22 @@ function Results() {
   const dataLength = useAppSelector(state => state.lufs.data.length)
 
   return (
-    <Table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Size</th>
-          <th>Duration</th>
-          <th>Integrated</th>
-          <th>Short</th>
-          <th>Mono</th>
-        </tr>
-      </thead>
-      <tbody>
-        {Array(dataLength)
-          .fill(null)
-          .map((_, index) => (
-            <Track index={index} key={index} />
-          ))}
-      </tbody>
-    </Table>
+    <List>
+      {Array(dataLength)
+        .fill(null)
+        .map((_, index) => (
+          <li key={index}>
+            <Track index={index} />
+          </li>
+        ))}
+    </List>
   )
 }
 
-const Table = styled.table`
-  margin-block: 1rem;
-
-  th,
-  td {
-    padding: 0.25rem 0.5rem;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: large;
-  }
+const List = styled.ul`
+  margin: 16px 0;
+  padding: 0;
+  list-style: none;
 `
 
 export default Results

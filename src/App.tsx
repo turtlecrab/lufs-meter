@@ -74,18 +74,23 @@ function App() {
   }, [files, dataLength, dispatch])
 
   return (
-    <>
+    <Main>
       <Header>LUFS meter</Header>
       <FileInput setFiles={setFiles} />
       <Results />
-    </>
+    </Main>
   )
 }
 
+const Main = styled.main`
+  max-width: 700px;
+  margin-inline: auto;
+`
+
 const Header = styled.h1`
   margin: 0;
-  padding: 0.75rem;
-  font-size: 2rem;
+  padding: 12px;
+  font-size: xx-large;
 
   font-family: 'Courier New', Courier, monospace;
 `

@@ -6,6 +6,7 @@ import {
   useCallback,
   memo,
 } from 'react'
+import styled from 'styled-components'
 import WaveSurfer, { type WaveSurferOptions } from 'wavesurfer.js'
 
 const useWaveSurfer = (
@@ -62,10 +63,12 @@ const WaveSurferPlayer = memo(
       }
     }, [pause])
 
-    return (
-      <div ref={containerRef} style={{ minHeight: 120 }} onMouseDown={play} />
-    )
+    return <Container ref={containerRef} onMouseDown={play} />
   },
 )
+
+const Container = styled.div`
+  flex: 1;
+`
 
 export default WaveSurferPlayer
