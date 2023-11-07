@@ -47,7 +47,8 @@ function App() {
         .then(arrayBuffer => actxRef.current!.decodeAudioData(arrayBuffer))
         .then(buffer => {
           const offlineCtx = new OfflineAudioContext(
-            buffer.numberOfChannels,
+            // force dual mono on mono files
+            Math.max(2, buffer.numberOfChannels),
             buffer.length,
             buffer.sampleRate,
           )

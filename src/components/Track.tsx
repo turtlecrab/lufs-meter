@@ -23,27 +23,12 @@ const Track = memo(({ index }: Props) => {
         <Wrapper>
           <DataList>
             <DataItem>
-              Integrated{' '}
-              <strong>
-                {/* mono files measured incorrectly at the moment */}
-                {track.isMono ? (
-                  <s>{track.integrated?.toFixed(1)}</s>
-                ) : (
-                  track.integrated?.toFixed(1)
-                )}
-              </strong>
+              Integrated <strong>{track.integrated?.toFixed(1)}</strong>
             </DataItem>
             <DataItem>
               Short-term{' '}
               <strong>
-                {track.isMono ? (
-                  <s>
-                    {track.short.length > 0 &&
-                      Math.max(...track.short).toFixed(1)}
-                  </s>
-                ) : (
-                  track.short.length > 0 && Math.max(...track.short).toFixed(1)
-                )}
+                {track.short.length > 0 && Math.max(...track.short).toFixed(1)}
               </strong>
             </DataItem>
           </DataList>
