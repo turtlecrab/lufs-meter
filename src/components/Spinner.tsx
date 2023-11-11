@@ -15,7 +15,7 @@ function Spinner() {
     }
   }, [])
 
-  return chars[n]
+  return <>{chars[n]}</>
 }
 
 export default Spinner
