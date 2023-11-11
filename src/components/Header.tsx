@@ -1,16 +1,32 @@
 import styled from 'styled-components'
-import { SlSocialGithub } from 'react-icons/sl'
+import { SlQuestion, SlSocialGithub } from 'react-icons/sl'
+import { useState } from 'react'
+
+import InfoModal from './InfoModal'
 
 function Header() {
+  const [infoIsOpen, setInfoIsOpen] = useState(false)
+
   return (
     <Container>
       <Heading>LUFS meter</Heading>
-      <GitHubLink
-        href="https://github.com/turtlecrab/lufs-meter"
-        aria-label="Github"
-      >
-        <SlSocialGithub size={28} />
-      </GitHubLink>
+      <Links>
+        <Link
+          href="https://github.com/turtlecrab/lufs-meter"
+          target="_blank"
+          aria-label="Github"
+        >
+          <SlSocialGithub size={28} />
+        </Link>
+        <Link
+          as="button"
+          onClick={() => setInfoIsOpen(true)}
+          aria-label="Information"
+        >
+          <SlQuestion size={28} />
+        </Link>
+      </Links>
+      <InfoModal open={infoIsOpen} onClose={() => setInfoIsOpen(false)} />
     </Container>
   )
 }
@@ -28,9 +44,19 @@ const Heading = styled.h1`
   font-family: 'Courier New', Courier, monospace;
 `
 
-const GitHubLink = styled.a`
+const Links = styled.div`
+  display: flex;
+  gap: 8px;
+`
+
+const Link = styled.a`
   display: flex;
   color: #adb5bd;
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
 
   &:hover {
     color: white;
