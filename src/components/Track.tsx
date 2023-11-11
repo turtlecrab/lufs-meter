@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { formatDuration } from '../lib/utils'
 import { useAppSelector } from '../store/store'
 import WaveSurferPlayer from './WaveSurferPlayer'
+import Spinner from './Spinner'
 
 interface Props {
   index: number
@@ -23,12 +24,19 @@ const Track = memo(({ index }: Props) => {
         <Wrapper>
           <DataList>
             <DataItem>
-              Integrated <strong>{track.integrated?.toFixed(1)}</strong>
+              Integrated{' '}
+              <strong>
+                {track.integrated ? track.integrated.toFixed(1) : <Spinner />}
+              </strong>
             </DataItem>
             <DataItem>
               Short-term{' '}
               <strong>
-                {track.short.length > 0 && Math.max(...track.short).toFixed(1)}
+                {track.short.length > 0 ? (
+                  Math.max(...track.short).toFixed(1)
+                ) : (
+                  <Spinner />
+                )}
               </strong>
             </DataItem>
           </DataList>
