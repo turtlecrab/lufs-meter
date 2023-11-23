@@ -18,8 +18,8 @@ function InfoModal({ open, onClose }: Props) {
               </li>
               <li>Mono files are treated as double mono</li>
               <li>
-                Adding a lot of files can eat a lot of RAM and even freeze the
-                page (to be fixed)
+                Adding a lot of files at once can eat a lot of RAM and even
+                freeze the page (to be fixed)
               </li>
             </List>
             <Button onClick={onClose}>OK</Button>

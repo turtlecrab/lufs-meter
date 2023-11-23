@@ -16,6 +16,17 @@ export function measure(
 
   meter.on('dataavailable', function (event: MeterEvent) {
     onData(event.data.mode, event.data.value)
+
+    // hack to unload the worker after all measurements are done
+    // cuz needles library doesn't have any proper way to do it.
+    // the last short-term event fires after the integrated event,
+    // so we can't unload the worker immediately
+    // TODO
+    if (event.data.mode === 'integrated') {
+      setTimeout(() => {
+        ;(meter._workerAdapter.worker as Worker).terminate()
+      }, 2000)
+    }
   })
 
   meter.start()
