@@ -5,14 +5,11 @@
 }
 
 body {
-  --bg-color: black;
-  --text-color: white;
-
   margin: 0;
   padding: 16px;
   min-width: 320px;
   min-height: 100vh;
 
-  background-color: var(--bg-color);
-  color: var(--text-color);
+  background-color: black;
+  color: white;
 }

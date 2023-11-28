@@ -76,15 +76,17 @@ function App() {
   }, [files, dataLength, dispatch])
 
   return (
-    <Main>
+    <Container>
       <Header />
-      <FileInput setFiles={setFiles} />
-      <Results />
-    </Main>
+      <main>
+        <FileInput setFiles={setFiles} />
+        <Results />
+      </main>
+    </Container>
   )
 }
 
-const Main = styled.main`
+const Container = styled.div`
   max-width: 700px;
   margin-inline: auto;
 `

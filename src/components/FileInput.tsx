@@ -18,7 +18,6 @@ function FileInput({ setFiles }: Props) {
     <Container>
       <label>
         <LiaDownloadSolid size={40} />
-        <br />
         Add audio files
         <input type="file" accept="audio/*" onChange={handleChange} multiple />
       </label>
@@ -40,8 +39,9 @@ const Container = styled.div`
     align-items: center;
     justify-content: center;
     font-family: 'Courier New', Courier, monospace;
-    font-size: larger;
+    font-size: 20px;
     font-weight: bold;
+    gap: 20px;
 
     & > input {
       opacity: 0;

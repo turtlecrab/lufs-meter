@@ -15,7 +15,7 @@ const Track = memo(({ index }: Props) => {
 
   return (
     <Container>
-      <Header style={track.status === 'error' ? { color: 'red' } : {}}>
+      <Header $isError={track.status === 'error'}>
         {track.isMono && <MonoPill>mono</MonoPill>} <Name>{track.name}</Name>{' '}
         <Duration>{track.duration && formatDuration(track.duration)}</Duration>{' '}
         <Size>{(track.size / (1024 * 1024)).toFixed(2)} Mb</Size>{' '}
@@ -47,7 +47,7 @@ const Track = memo(({ index }: Props) => {
           />
         </Wrapper>
       ) : (
-        <div style={{ fontSize: 'xx-large' }}>❌</div>
+        <div style={{ fontSize: '32px' }}>❌</div>
       )}
     </Container>
   )
@@ -59,22 +59,25 @@ const Container = styled.article`
   flex-direction: column;
 `
 
-const Header = styled.h2`
+const Header = styled.header<{ $isError: boolean }>`
   margin: 24px 0 4px;
+  font-weight: bold;
+
+  ${p => p.$isError && 'color: red;'}
 `
 
 const Name = styled.span`
-  font-size: larger;
+  font-size: 28px;
 `
 
 const Size = styled.span`
   color: #adb5bd;
-  font-size: medium;
+  font-size: 16px;
 `
 
 const Duration = styled.span`
   color: #dee2e6;
-  font-size: medium;
+  font-size: 16px;
 `
 
 const MonoPill = styled.span`
@@ -83,6 +86,7 @@ const MonoPill = styled.span`
   color: black;
   padding: 4px 8px;
   border-radius: 999px;
+  font-size: 28px;
 `
 
 const Wrapper = styled.div`
@@ -120,7 +124,7 @@ const DataItem = styled.li`
   }
 
   & > strong {
-    font-size: x-large;
+    font-size: 24px;
     color: white;
   }
 `

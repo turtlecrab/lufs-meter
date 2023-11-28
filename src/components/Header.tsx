@@ -40,7 +40,7 @@ const Container = styled.header`
 const Heading = styled.h1`
   margin: 0;
   padding: 12px;
-  font-size: xx-large;
+  font-size: 32px;
   font-family: 'Courier New', Courier, monospace;
 `
 
