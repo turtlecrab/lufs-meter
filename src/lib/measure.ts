@@ -14,6 +14,8 @@ export function measure(
     workerUri: '/needles-worker.js',
   })
 
+  let isIntegratedDone = false
+
   meter.on('dataavailable', function (event: MeterEvent) {
     onData(event.data.mode, event.data.value)
 
@@ -23,9 +25,11 @@ export function measure(
     // so we can't unload the worker immediately
     // TODO
     if (event.data.mode === 'integrated') {
-      setTimeout(() => {
-        ;(meter._workerAdapter.worker as Worker).terminate()
-      }, 2000)
+      isIntegratedDone = true
+    }
+    if (isIntegratedDone && event.data.mode === 'short-term') {
+      const worker = meter._workerAdapter.worker as Worker
+      worker.terminate()
     }
   })
 
